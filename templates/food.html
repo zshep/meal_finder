@@ -28,9 +28,11 @@
         </div>
         <div class="container justify-content-center">
             <h8> Here's a List of the Recipies you like</h8>
-            <ul>
-                <li></li>
-            </ul>
+            {% for food in foods %}
+                <ul>
+                    <li>{ food }</li>
+                </ul>
+            {% endblock %}
         </div>
 
 

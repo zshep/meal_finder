@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+<container>
+    <h1 class="justify-center">Welcome user</h1>
+
+    <div>
+        <p>The week's meals at a glance</p>
+        <table class = "table table-striped">
+            <thead>
+                <tr>
+                    <th>Sunday</th>
+                    <th>Monday</th>
+                    <th>Tuesday</th>
+                    <th>Wednesday</th>
+                    <th>Thursday</th>
+                    <th>Friday</th>
+                    <th>Saturday</th>
+                </tr>
+            </thead>
+            
+            <tbody>
+                <td class="mealday"></td>
+                <td class="mealday"></td>
+                <td class="mealday"></td>
+                <td class="mealday"></td>
+                <td class="mealday"></td>
+                <td class="mealday"></td>
+                <td class="mealday"></td>
+            </tbody>
+
+
+        </table>
+
+
+    </div>
+
+</container>
+
+{% endblock %}
+
+

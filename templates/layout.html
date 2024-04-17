@@ -22,10 +22,17 @@
 
     <body>
         <nav class="nav">
-            <a class="nav-link active" href="/">Home</a>
-            <a class="nav-link" href="/food">Manage Food Items</a>
-            <a class="nav-link" href="">Meal Plan</a>
+            {% if session["name"] %}
+            <ul>
 
+                <li><a class="nav-link active" href="/">Home</a></li>
+                <li><a class="nav-link" href="/food">Manage Food Items</a></li>
+                <li><a class="nav-link" href="">Meal Plan</a></li>
+            </ul>
+            <ul>
+                <li><a class="nav-link" href="/logout"></a></li>
+            </ul>
+            {% else %}
         </nav>
      
         <main>

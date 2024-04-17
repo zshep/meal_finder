@@ -7,6 +7,11 @@ import sqlite3
 # Configure application
 app = Flask(__name__)
 
+# Configure session to use filesystem (instead of signed cookies)
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
+
 #setting up sqlite database
 try:
     connection = sqlite3.connect('foods.db', check_same_thread= False)
@@ -24,6 +29,50 @@ def index():
 
 
     return render_template("index.html")
+
+@app.route("/login", methods = ["GET","POST"])
+def login():
+    if request.method == "GET":
+        return render_template("login.html")
+    
+    #record the user name in session obejct 
+    session["name"] = request.form.get("name")
+    #redirect to main page
+    return redirect("/")
+
+@app.route("/logout")
+def logout():
+    #end session for username
+    session.clear()
+
+    return redirect("/")
+
+@app.route("/register")
+def register():
+
+    if request.method == "GET":
+        return render_template("register.html")
+    else:
+        username = request.form.get("username")
+        password = request.form.get("password")
+        confirm_password = request.form.get("confirmation")
+
+        #debugging
+        print(username, password, confirm_password)
+
+        #catching missing usernames or passwords
+        if not username or not password or not confirm_password:
+            #need to send error message to user
+            print("missing field")
+            return redirect('/')
+        
+        #catching miss matched passwords
+        if password != confirm_password:
+           #need to send error message to user
+            print("passwords do not match")
+            return redirect("/")            
+    
+
 
 @app.route("/food", methods =["GET", "POST"] )
 def food():

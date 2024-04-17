@@ -70,7 +70,13 @@ def register():
         if password != confirm_password:
            #need to send error message to user
             print("passwords do not match")
-            return redirect("/")            
+            return redirect("/")           
+
+        #grabbing all usernames to double check existance
+        user_list = []
+
+
+        # checking if new username is unique in db
     
 
 

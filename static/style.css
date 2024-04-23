@@ -1,0 +1,21 @@
+nav {
+    margin-top: 2vh;
+    margin-bottom: 5vh;
+
+
+}
+
+#navbar {
+    display: flex;
+    height: auto;
+    background-color: brown;
+    flex-wrap: none;
+    margin: 0;
+    width: 100%;
+
+}
+
+#homebtn {
+    color: green;
+
+}

@@ -5,9 +5,15 @@
 
 <container>
     <form action ="/login" method="post">
-        <input name ="username" autocomplete="off" type="text" placeholder="Username" autofocus >
-        <input name ="password" autocomplete="off" type="password" placeholder="password" autofocus>
-        <input name ="confirmation" autocomplete="off" type="password" placeholder="retype password" autofocus>
+        <div class="mb-3">
+            <input name ="username" autocomplete="off" type="text" placeholder="Username" autofocus >
+        </div>
+        <div class="mb-3">
+            <input name ="password" autocomplete="off" type="password" placeholder="password" autofocus>
+        </div>
+        <div class="mb-3">    
+            <input name ="confirmation" autocomplete="off" type="password" placeholder="retype password" autofocus>
+        </div>
         <button type="submit">Login</button>
     
     </form>

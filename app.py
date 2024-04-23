@@ -1,7 +1,10 @@
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
+from functools import wraps
 from werkzeug.security import check_password_hash, generate_password_hash
 import sqlite3
+from db.db import get_db
+
 
 
 # Configure application
@@ -12,18 +15,24 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-#setting up sqlite database
-try:
-    connection = sqlite3.connect('foods.db', check_same_thread= False)
-    cursor = connection.cursor()
-    print("DB init")
+#starting up sqlite db
+connection = get_db()
 
-#handling errors
-except sqlite3.Error as error:
-    print('Error Occured - ', error)
+
+#creating login_requirement to view food pages
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if session.get("user_id") is None:
+            return redirect("/login")
+        return f(*args, **kwargs)
+    return decorated_function
+
+
 
 #home route
 @app.route("/")
+@login_required
 def index():
     #home route
 
@@ -64,23 +73,24 @@ def register():
         if not username or not password or not confirm_password:
             #need to send error message to user
             print("missing field")
-            return redirect('/')
+            return render_template("error.html")
         
         #catching miss matched passwords
         if password != confirm_password:
            #need to send error message to user
             print("passwords do not match")
-            return redirect("/")           
+            return render_template("error.html")     
 
         #grabbing all usernames to double check existance
         user_list = []
 
 
         # checking if new username is unique in db
-    
+        
 
 
 @app.route("/food", methods =["GET", "POST"] )
+@login_required
 def food():
     if request.method == "GET":
         
@@ -119,11 +129,6 @@ def jedi():
     return render_template("layout.html")
 
 
-# log in
-
-
-
-#register
 
 
 

@@ -8,7 +8,7 @@ nav {
 #navbar {
     display: flex;
     height: auto;
-    background-color: brown;
+    background-color: lightblue;
     flex-wrap: none;
     margin: 0;
     width: 100%;

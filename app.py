@@ -16,7 +16,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 #starting up sqlite db
-connection = get_db()
+cursor = get_db()
 
 
 #creating login_requirement to view food pages
@@ -44,8 +44,18 @@ def login():
     if request.method == "GET":
         return render_template("login.html")
     
+    # grab username and password from field
+    username = request.form.get("name")
+    password = request.form.get("password")
+
+    if not username or not password:
+        print("missing username or password")
+        return render_template("error.html")
+    
     #record the user name in session obejct 
     session["name"] = request.form.get("name")
+
+
     #redirect to main page
     return redirect("/")
 
@@ -83,10 +93,27 @@ def register():
 
         #grabbing all usernames to double check existance
         user_list = []
-
+        user_names = cursor.execute("SELECT user_name FROM users")
+        for user in user_names:
+            user_list.append(user['user_name'])
 
         # checking if new username is unique in db
+        if username in user_list:
+            print("username already exists")
+            return render_template("error.html")
         
+        #hash password
+        #TODO: use bcrypt or something to encript passwords
+
+
+        #add in new user to db
+
+
+
+        return render_template("/")
+
+
+                
 
 
 @app.route("/food", methods =["GET", "POST"] )

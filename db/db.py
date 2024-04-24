@@ -12,7 +12,7 @@ def get_db():
         
 
         # do I want to return the cursor or just the connection? 
-        return connection 
+        return cursor 
 
     #handling errors
     except sqlite3.Error as error:

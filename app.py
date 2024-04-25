@@ -16,7 +16,9 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 #starting up sqlite db
-cursor = get_db()
+connection = get_db()
+#creating cursor
+cursor = connection.cursor()
 
 
 #creating login_requirement to view food pages
@@ -34,26 +36,57 @@ def login_required(f):
 @app.route("/")
 @login_required
 def index():
-    #home route
+    #grab users info
+    user_name = session['name']
+    print(user_name)
+
 
 
     return render_template("index.html")
 
 @app.route("/login", methods = ["GET","POST"])
 def login():
+    # GET Route
     if request.method == "GET":
         return render_template("login.html")
     
+    #handling POST Route
+    #Forget an user
+    session.clear()
+
     # grab username and password from field
     username = request.form.get("name")
     password = request.form.get("password")
+    print(username)
+    print(password)
 
+       
     if not username or not password:
         print("missing username or password")
         return render_template("error.html")
     
-    #record the user name in session obejct 
-    session["name"] = request.form.get("name")
+    #checking username in to confirm password
+    res = cursor.execute("SELECT id, hash FROM users WHERE user_name == ?", [username])
+
+    user_check = res.fetchall()
+
+    print(user_check)
+    print(user_check[0])
+    
+    
+
+    if not user_check:
+        print("username not found")
+        return render_template("error.html")
+    
+    #check if password matches
+    if not check_password_hash(user_check[0], password):
+        print("password is not correct")
+        return render_template("error.html")
+
+
+    #record the user id in session obejct 
+    session["user_id"] = request.form.get("name")
 
 
     #redirect to main page
@@ -66,21 +99,21 @@ def logout():
 
     return redirect("/")
 
-@app.route("/register")
+@app.route("/register", methods= ["GET", "POST"])
 def register():
 
     if request.method == "GET":
         return render_template("register.html")
     else:
-        username = request.form.get("username")
+        user_name = request.form.get("username")
         password = request.form.get("password")
         confirm_password = request.form.get("confirmation")
 
         #debugging
-        print(username, password, confirm_password)
+        print(user_name, password, confirm_password)
 
         #catching missing usernames or passwords
-        if not username or not password or not confirm_password:
+        if not user_name or not password or not confirm_password:
             #need to send error message to user
             print("missing field")
             return render_template("error.html")
@@ -93,24 +126,33 @@ def register():
 
         #grabbing all usernames to double check existance
         user_list = []
-        user_names = cursor.execute("SELECT user_name FROM users")
+        res = cursor.execute("SELECT user_name FROM users")
+        user_names = res.fetchall()
+        print(user_names)
+
         for user in user_names:
             user_list.append(user['user_name'])
 
         # checking if new username is unique in db
-        if username in user_list:
+        if user_name in user_list:
             print("username already exists")
             return render_template("error.html")
         
         #hash password
-        #TODO: use bcrypt or something to encript passwords
+        hash = generate_password_hash(password)
+        print(hash)
+        new_user = [user_name, hash]
+        print(new_user)
+
+                #add in new user to db
+        cursor.execute("INSERT into users(id, user_name, hash) VALUES(?, ?)", new_user)
+
+        connection.commit()
+
+        #TODO: let users know they are registered
 
 
-        #add in new user to db
-
-
-
-        return render_template("/")
+        return render_template("/login.html")
 
 
                 

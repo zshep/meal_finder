@@ -7,12 +7,14 @@ def get_db():
         cursor = connection.cursor()
         print("DB init")
 
-        cursor.execute("CREATE TABLE IF NOT EXISTS users (id int NOT NULL PRIMARY KEY, user_name text NOT NUll, hash text )")
+        cursor.execute("CREATE TABLE IF NOT EXISTS users (id int PRIMARY KEY, user_name text NOT NUll, hash text)")
+
+        connection.commit()
 
         
 
         # do I want to return the cursor or just the connection? 
-        return cursor 
+        return connection 
 
     #handling errors
     except sqlite3.Error as error:

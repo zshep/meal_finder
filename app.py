@@ -15,10 +15,8 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-#starting up sqlite db
-connection = get_db()
-#creating cursor
-cursor = connection.cursor()
+
+
 
 
 #creating login_requirement to view food pages
@@ -65,6 +63,11 @@ def login():
         print("missing username or password")
         return render_template("error.html")
     
+    #starting up sqlite db
+    connection = get_db()
+    #creating cursor
+    cursor = connection.cursor()
+    
     #checking username in to confirm password
     res = cursor.execute("SELECT id, hash FROM users WHERE user_name == ?", [username])
 
@@ -105,6 +108,11 @@ def register():
     if request.method == "GET":
         return render_template("register.html")
     else:
+        #starting up sqlite db
+        connection = get_db()
+        #creating cursor
+        cursor = connection.cursor()
+
         user_name = request.form.get("username")
         password = request.form.get("password")
         confirm_password = request.form.get("confirmation")
@@ -141,11 +149,11 @@ def register():
         #hash password
         hash = generate_password_hash(password)
         print(hash)
-        new_user = [user_name, hash]
+        new_user = ["null", user_name, hash]
         print(new_user)
 
                 #add in new user to db
-        cursor.execute("INSERT into users(id, user_name, hash) VALUES(?, ?)", new_user)
+        cursor.execute("INSERT into users(id, user_name, hash) VALUES(?, ?, ?)", new_user)
 
         connection.commit()
 
@@ -162,7 +170,7 @@ def register():
 @login_required
 def food():
     if request.method == "GET":
-        
+                
         #grab the users meal items from DB
         foods = connection.cursor()
 

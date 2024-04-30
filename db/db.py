@@ -7,7 +7,7 @@ def get_db():
         cursor = connection.cursor()
         print("DB init")
 
-        cursor.execute("CREATE TABLE IF NOT EXISTS users (id int PRIMARY KEY, user_name text NOT NUll, hash text)")
+        cursor.execute("CREATE TABLE IF NOT EXISTS users (id int PRIMARY KEY AUTO_INCREMENT, user_name text NOT NUll, hash text)")
 
         connection.commit()
 

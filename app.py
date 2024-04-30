@@ -36,7 +36,9 @@ def login_required(f):
 def index():
     #grab users info
     user_name = session['name']
-    print(user_name)
+    user_id = session['user_id']
+    print(user_name, user_id)
+
 
 
 
@@ -63,18 +65,20 @@ def login():
         print("missing username or password")
         return render_template("error.html")
     
-    #starting up sqlite db
-    connection = get_db()
-    #creating cursor
-    cursor = connection.cursor()
+    #starting up sqlite db and creating cursor
+    cursor = get_db().cursor()
+        
     
     #checking username in to confirm password
-    res = cursor.execute("SELECT id, hash FROM users WHERE user_name == ?", [username])
+    res = cursor.execute("SELECT personid, hash FROM users WHERE user_name == ?", [username])
 
+    
     user_check = res.fetchall()
 
-    print(user_check)
-    print(user_check[0])
+    #debugging
+    #print(user_check)
+    #print(user_check[0])
+    #print(user_check[0][1])
     
     
 
@@ -83,13 +87,14 @@ def login():
         return render_template("error.html")
     
     #check if password matches
-    if not check_password_hash(user_check[0], password):
+    if not check_password_hash(user_check[0][1], password):
         print("password is not correct")
         return render_template("error.html")
 
 
     #record the user id in session obejct 
-    session["user_id"] = request.form.get("name")
+    session["user_id"] = user_check[0][1]
+    session["name"] = request.form.get("name")
 
 
     #redirect to main page
@@ -108,11 +113,7 @@ def register():
     if request.method == "GET":
         return render_template("register.html")
     else:
-        #starting up sqlite db
-        connection = get_db()
-        #creating cursor
-        cursor = connection.cursor()
-
+             
         user_name = request.form.get("username")
         password = request.form.get("password")
         confirm_password = request.form.get("confirmation")
@@ -134,13 +135,19 @@ def register():
 
         #grabbing all usernames to double check existance
         user_list = []
+               
+        #starting up sqlite db and creating cursor
+        db = get_db()
+        cursor = db.cursor()
+
         res = cursor.execute("SELECT user_name FROM users")
         user_names = res.fetchall()
         print(user_names)
 
         for user in user_names:
-            user_list.append(user['user_name'])
+            user_list.append(user[0])
 
+        print(user_list)
         # checking if new username is unique in db
         if user_name in user_list:
             print("username already exists")
@@ -149,13 +156,15 @@ def register():
         #hash password
         hash = generate_password_hash(password)
         print(hash)
-        new_user = ["null", user_name, hash]
+        
+        new_user = [user_name, hash]
         print(new_user)
 
                 #add in new user to db
-        cursor.execute("INSERT into users(id, user_name, hash) VALUES(?, ?, ?)", new_user)
+        cursor.execute("INSERT into users(user_name, hash) VALUES(?, ?)", new_user)
 
-        connection.commit()
+        db.commit()
+        db.close()
 
         #TODO: let users know they are registered
 
@@ -172,7 +181,8 @@ def food():
     if request.method == "GET":
                 
         #grab the users meal items from DB
-        foods = connection.cursor()
+        db = get_db()
+        foods = db.cursor()
 
         foods.execute("SELECT * FROM recipes")
 

@@ -42,7 +42,7 @@ def index():
 
 
 
-    return render_template("index.html")
+    return render_template("index.html", user_name = user_name)
 
 @app.route("/login", methods = ["GET","POST"])
 def login():
@@ -93,7 +93,7 @@ def login():
 
 
     #record the user id in session obejct 
-    session["user_id"] = user_check[0][1]
+    session["user_id"] = user_check[0][0]
     session["name"] = request.form.get("name")
 
 
@@ -184,13 +184,11 @@ def food():
         db = get_db()
         foods = db.cursor()
 
-        foods.execute("SELECT * FROM recipes")
+        
 
-        for food in foods:
-            print(food)
-
+        
         #make variables to hold food info in order to be displayed on page
-        return render_template("/food.html", foods)
+        return render_template("/food.html")
     else:
         new_food_item = request.form.get("foodname")
         is_vegan = request.form.get("vegan")
@@ -204,7 +202,7 @@ def food():
         print("does it have dairy?", dairy)
         print("is it gluton free? ", glutonfree)
 
-        connection.execute("INSERT INTO recipes ?", new_food_item)
+        
 
      
 

@@ -7,7 +7,21 @@ def get_db():
         cursor = connection.cursor()
         print("DB init")
 
+        #loading/creating users table
         cursor.execute("CREATE TABLE IF NOT EXISTS users (personid INTEGER PRIMARY KEY AUTOINCREMENT, user_name text NOT NUll, hash text)")
+        print("users table created")
+
+        #loading/creating meal items table
+        cursor.execute("CREATE TABLE IF NOT EXISTS meal_items (meal_id INTEGER PRIMARY KEY AUTOINCREMENT, meal_name test NOT NULL, is_easy BOOL, instructions TEXT, person_id INTEGER, FORIEGN KEY (person_id) REFERENCES users(personid))")
+        print("meal_items table created")
+
+        #loading/creating food items table
+        cursor.execute("CREATE TABLE IF NOT EXISTS food_items (food_id INTEGER PRIMARY KEY AUTOINCREMENT, food_name TEXT NOT NULL, is_vegan BOOL, is_vegi BOOL)")
+        print("food_items table created")
+        
+        #loading/creating ingredients table
+        cursor.execute("CREATE TABLE IF NOT EXISTS ingredients (food_id INTEGER, meal_id INTEGER FOREIGN KEY (food_id) REFERENCES food_items (food_id), FORIEGN KEY (meal_id) REFERENCES meal_items (meal_id)")
+        print("ingredients table created")
 
         connection.commit()
 

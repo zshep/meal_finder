@@ -175,39 +175,54 @@ def register():
                 
 
 
-@app.route("/food", methods =["GET", "POST"] )
+@app.route("/add_meal", methods =["GET", "POST"] )
 @login_required
-def food():
+def add_meal():
+    #handling Get request
     if request.method == "GET":
                 
         #grab the users meal items from DB
+        
         db = get_db()
-        foods = db.cursor()
-
+        res = db.cursor().execute("SELECT meal_name FROM meal_items WHERE person_id = (?)", [session['user_id']])
+        meals = res.fetchall()
+        print(meals)
         
-
         
-        #make variables to hold food info in order to be displayed on page
-        return render_template("/food.html")
+        #empty list to hold meals
+        meal_list = []
+        for meal in meals:
+            print(meal[0])
+            meal_list.append(meal[0])
+
+        print(meal_list)
+        db.close()
+        
+        return render_template("/food.html", meal_list = meal_list)
+    #handling Post request
     else:
-        new_food_item = request.form.get("foodname")
-        is_vegan = request.form.get("vegan")
-        is_vegetarian = request.form.get("vegetarian")
-        dairy = request.form.get("dairy")
-        glutonfree = request.form.get("gf")
-
-        print("new food: ", new_food_item)
-        print("is it vegan?", is_vegan)
-        print("is it vegetarian?", is_vegetarian)
-        print("does it have dairy?", dairy)
-        print("is it gluton free? ", glutonfree)
-
+        meal_name = request.form.get("mealname")
+        is_easy = request.form.get("easy")
+        print(meal_name, is_easy)
         
+        new_meal = [meal_name, is_easy, session['user_id']]
 
-     
+        # add new meal item to db
+        db = get_db()
+        db.cursor().execute("INSERT INTO meal_items(meal_name, is_easy, person_id) VALUES(?,?,?)", new_meal)
+
+        db.commit()
+        db.close()        
 
         return render_template("/food.html")
 
+@app.route("/delete_meal", methods = ["DELETE"])
+@login_required
+def delete_meal():
+    print("delete meal button was pressed")
+
+
+    return render_template("food.html")
 
 @app.route("/jedi")
 def jedi():

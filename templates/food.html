@@ -3,22 +3,32 @@
 {% block main %}
 
     <container class="container">
+        <div class="container justify-content-center">
+            <h8> Your Recipies</h8>
+            {% if meal_list %}
+                {% for meal in meal_list %}
+                    <ul>
+                        <li>{{ meal }}</li>
+                        <form action="/delete_meal" method="DELETE">
+                            <input type ="submit" value="Delete"/>
+                        </form>
+                    </ul>
+                {% endfor %}
+            {% else %}
+
+                <p>No Recipes Added</p>
+
+            {% endif %}
+        </div>
+        
         <div class="justify-content-center">
             <h8>Would you like to add a new meal item?</h8>
-            <form action="/food" method ="post">
+            <form action="/add_meal" method ="post">
                 <div>
-                    <input autocomplete="off" type ="text" autofocus name = "foodname" placeholder="Enter meal item">
-                    
-                    <input class="form-check-input" type ="checkbox" id="vegan" name="vegan" value="vegan">
-                    <label for="vegan">vegan</label>
-                    <input class="form-check-input"type="checkbox" id="vegetarian" name="vegetarian" value="vegetarian" value="vegetarian">
-                    <label for="vegetarian">vegetarian</label>
-                    <input class="form-check-input" type="checkbox" id="dairy" name="dairy" value="dairy">
-                    <label for ="dairy">dairy</label>
-                    <input class="form-check-input" type="checkbox" id="gf" name="gf" value="gf">
-                    <label for="gf">gluton free</label>
+                    <input autocomplete="off" type ="text" autofocus name = "mealname" placeholder="Enter meal">
+                    <input type="checkbox" name="easy">
+                    <label>Easy</label>
 
-                    
                 </div>
                 <button type="submit" class="btn btn-success"> Add new Meal Item</button>
 
@@ -26,14 +36,7 @@
 
             </form>
         </div>
-        <div class="container justify-content-center">
-            <h8> Here's a List of the Recipies you like</h8>
-            {% for food in foods %}
-                <ul>
-                    <li>{ food }</li>
-                </ul>
-            {% endfor %}
-        </div>
+        
 
 
 

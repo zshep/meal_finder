@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block main %}
+    <div class="justify-content-center">
+        <h8>Add a new meal to Our Cookbook</h8>
+        <form action="/add_meal" method ="post">
+            <div>
+                <input autocomplete="off" type ="text" autofocus name = "mealname" placeholder="Enter meal">
+                <input type="checkbox" name="easy">
+                <label>Easy</label>
+
+            </div>
+            <button type="submit" class="btn btn-success"> Add new Meal Item</button>
+
+
+
+        </form>
+    </div>
+
+
+
+
+
+{% endblock %}

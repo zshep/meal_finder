@@ -16,9 +16,6 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 
-
-
-
 #creating login_requirement to view food pages
 def login_required(f):
     @wraps(f)
@@ -27,8 +24,6 @@ def login_required(f):
             return redirect("/login")
         return f(*args, **kwargs)
     return decorated_function
-
-
 
 #home route
 @app.route("/")
@@ -44,6 +39,7 @@ def index():
 
     return render_template("index.html", user_name = user_name)
 
+#login route
 @app.route("/login", methods = ["GET","POST"])
 def login():
     # GET Route
@@ -100,13 +96,14 @@ def login():
     #redirect to main page
     return redirect("/")
 
+#logout route
 @app.route("/logout")
 def logout():
     #end session for username
     session.clear()
 
     return redirect("/")
-
+# register route
 @app.route("/register", methods= ["GET", "POST"])
 def register():
 
@@ -171,34 +168,46 @@ def register():
 
         return render_template("/login.html")
 
+#show meal route
+@app.route("/show_meal", methods =["GET"])
+@login_required
+def show_meal():
+    #grab the users meal items from DB
+    db = get_db()
+    res = db.cursor().execute("SELECT meal_name FROM meal_items WHERE person_id = (?)", [session['user_id']])
+    user_meals = res.fetchall()
+    print(user_meals)
 
-                
+    recipes = db.cursor().execute("SELECT meal_name FROM meal_items")
+
+    all_meals = recipes.fetchall()
+    print(all_meals)
+    
+    
+    #empty list to hold meals
+    user_meal_list = []
+    for meal in user_meals:
+        #print(meal[0])
+        user_meal_list.append(meal[0])
+
+   
+    db.close()
+
+    #grab all of the meals items for DB
 
 
+
+    
+    return render_template("/food.html", meal_list = meal_list)
+
+# add meal  route
 @app.route("/add_meal", methods =["GET", "POST"] )
 @login_required
 def add_meal():
     #handling Get request
     if request.method == "GET":
                 
-        #grab the users meal items from DB
-        
-        db = get_db()
-        res = db.cursor().execute("SELECT meal_name FROM meal_items WHERE person_id = (?)", [session['user_id']])
-        meals = res.fetchall()
-        print(meals)
-        
-        
-        #empty list to hold meals
-        meal_list = []
-        for meal in meals:
-            print(meal[0])
-            meal_list.append(meal[0])
-
-        print(meal_list)
-        db.close()
-        
-        return render_template("/food.html", meal_list = meal_list)
+        return render_template("/food.html")
     #handling Post request
     else:
         meal_name = request.form.get("mealname")
@@ -216,11 +225,13 @@ def add_meal():
 
         return render_template("/food.html")
 
+#delete meal route
 @app.route("/delete_meal", methods = ["DELETE"])
 @login_required
 def delete_meal():
     print("delete meal button was pressed")
-
+    meal_remove = request.form.get("")
+    #
 
     return render_template("food.html")
 

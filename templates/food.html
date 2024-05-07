@@ -2,16 +2,16 @@
 
 {% block main %}
 
-    <container class="container">
-        <div class="container justify-content-center">
+    <container class="d-flex flex-row">
+        <div class="align-self-start">
             <h8> Your Recipies</h8>
             {% if meal_list %}
-                {% for meal in meal_list %}
+                {% for meal in user_list %}
                     <ul>
                         <li>{{ meal }}</li>
-                        <form action="/delete_meal" method="DELETE">
+                        <button action="/delete_meal" method="DELETE">
                             <input type ="submit" value="Delete"/>
-                        </form>
+                        </button>
                     </ul>
                 {% endfor %}
             {% else %}
@@ -21,15 +21,19 @@
             {% endif %}
         </div>
         
-        <div class="justify-content-center">
+        <div class="align-self-end">
+            <div>
+                <h8>Available Recipes</h8>
+                {% for meal in all_meals%}
+                    <ul> {{ meal }}</ul>
+                    <button action="/add_recipe">Add to Your Recipes</button>
+                    <submit></submit>
+                {% endfor %}
+            </div>
             <h8>Would you like to add a new meal item?</h8>
-            <a href ="/add_food">Add New Meal Item</a>
+            <a href ="/add_meal">Add New Meal Item</a>
         </div>
         
-
-
-
-
     </container>
 
 {% endblock %}

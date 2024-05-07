@@ -178,27 +178,29 @@ def show_meal():
     user_meals = res.fetchall()
     print(user_meals)
 
+    #grab all the recipes for db
     recipes = db.cursor().execute("SELECT meal_name FROM meal_items")
 
     all_meals = recipes.fetchall()
     print(all_meals)
+
+    #createing and populting list hold all meals
+    all_meal_list = []
+    for meals in all_meals:
+        all_meal_list.append(meals[0])
     
     
-    #empty list to hold meals
+    #creating and populating list to hold user meals
     user_meal_list = []
     for meal in user_meals:
         #print(meal[0])
         user_meal_list.append(meal[0])
 
-   
+   #closing db
     db.close()
 
-    #grab all of the meals items for DB
-
-
-
-    
-    return render_template("/food.html", meal_list = meal_list)
+        
+    return render_template("/food.html", user_list = user_meal_list, all_meals = all_meal_list)
 
 # add meal  route
 @app.route("/add_meal", methods =["GET", "POST"] )
@@ -207,7 +209,7 @@ def add_meal():
     #handling Get request
     if request.method == "GET":
                 
-        return render_template("/food.html")
+        return render_template("/add_food.html")
     #handling Post request
     else:
         meal_name = request.form.get("mealname")

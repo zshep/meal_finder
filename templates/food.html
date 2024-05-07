@@ -2,38 +2,39 @@
 
 {% block main %}
 
-    <container class="d-flex flex-row">
-        <div class="align-self-start">
-            <h8> Your Recipies</h8>
-            {% if meal_list %}
-                {% for meal in user_list %}
-                    <ul>
-                        <li>{{ meal }}</li>
-                        <button action="/delete_meal" method="DELETE">
-                            <input type ="submit" value="Delete"/>
-                        </button>
-                    </ul>
-                {% endfor %}
-            {% else %}
+    <container class="container">
+        <div class="row">
+            <div class="col">
+                <h8> Your Recipies</h8>
+                {% if meal_list %}
+                    {% for meal in user_list %}
+                        <ul>
+                            <li>{{ meal }}</li>
+                            <button action="/delete_meal" method="DELETE">
+                                <input type ="submit" value="Delete"/>
+                            </button>
+                        </ul>
+                    {% endfor %}
+                {% else %}
 
-                <p>No Recipes Added</p>
+                    <p>No Recipes Added</p>
 
-            {% endif %}
-        </div>
-        
-        <div class="align-self-end">
-            <div>
-                <h8>Available Recipes</h8>
-                {% for meal in all_meals%}
-                    <ul> {{ meal }}</ul>
-                    <button action="/add_recipe">Add to Your Recipes</button>
-                    <submit></submit>
-                {% endfor %}
+                {% endif %}
             </div>
-            <h8>Would you like to add a new meal item?</h8>
-            <a href ="/add_meal">Add New Meal Item</a>
+            
+            <div class="col">
+                <div>
+                    <h8>Available Recipes</h8>
+                    {% for meal in all_meals%}
+                        <ul> {{ meal }}</ul>
+                        <button action="/add_recipe">Add to Your Recipes</button>
+                        <input type="submit"></input>
+                    {% endfor %}
+                </div>
+                <h8>Would you like to add a new meal item?</h8>
+                <a href ="/add_meal">Add New Meal Item</a>
+            </div>
         </div>
-        
     </container>
 
 {% endblock %}

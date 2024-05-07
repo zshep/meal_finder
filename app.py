@@ -1,4 +1,4 @@
-from flask import Flask, flash, redirect, render_template, request, session
+from flask import Flask, flash, redirect, render_template, request, session, url_for
 from flask_session import Session
 from functools import wraps
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -226,6 +226,13 @@ def add_meal():
         db.close()        
 
         return render_template("/food.html")
+
+#TODO make add recipe (to users cookbook)
+@app.route("/add_recipe", methods = ["POST"])
+def add_recipe():
+    print("the add recipe button was pushed")
+
+    return redirect(url_for('show_meal'))
 
 #delete meal route
 @app.route("/delete_meal", methods = ["DELETE"])

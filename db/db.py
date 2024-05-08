@@ -12,7 +12,7 @@ def get_db():
         #print("users table created")
 
         #loading/creating meal items table
-        cursor.execute("CREATE TABLE IF NOT EXISTS meal_items (meal_id INTEGER PRIMARY KEY AUTOINCREMENT, meal_name TEXT NOT NULL, is_easy BOOL, person_id INTEGER FORIEGN KEY REFERENCES users(personid))")
+        cursor.execute("CREATE TABLE IF NOT EXISTS meal_items (meal_id INTEGER PRIMARY KEY AUTOINCREMENT, meal_name TEXT NOT NULL, is_easy BOOL)")
         #print("meal_items table created")
 
         #loading/creating food items table
@@ -22,6 +22,9 @@ def get_db():
         #loading/creating ingredients table
         cursor.execute("CREATE TABLE IF NOT EXISTS ingredients (food_id INTEGER FORIEGN KEY REFERENCES food_items (food_id), meal_id INTEGER FORIEGN KEY REFERENCES meal_items (meal_id))")
         #print("ingredients table created")
+
+        cursor.execute("CREATE TABLE IF NOT EXISTS cookbook(person_id INTEGER FORIEGN KEY REFERENCES users(person_id), meal_id INTEGER FORIEN KEY REFERENCES meal_items(meal_id))")
+        #print("cookbook table created")
 
         connection.commit()
 

@@ -27,8 +27,8 @@
                     <h8>Available Recipes</h8>
                     {% for meal in all_meals%}
                         <ul> {{ meal }}</ul>
-                        <button action="/add_recipe">Add to Your Recipes</button>
-                        <input type="submit"></input>
+                        <button action="/add_recipe" methods="POST">Add to Your Recipes</button>
+                        
                     {% endfor %}
                 </div>
                 <h8>Would you like to add a new meal item?</h8>

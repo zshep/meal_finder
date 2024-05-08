@@ -174,7 +174,7 @@ def register():
 def show_meal():
     #grab the users meal items from DB
     db = get_db()
-    res = db.cursor().execute("SELECT meal_name FROM meal_items WHERE person_id = (?)", [session['user_id']])
+    res = db.cursor().execute("SELECT meal_name FROM meal_items JOIN cookbook ON meal_items.meal_id = cookbook.meal_id, users ON cookbook.person_id = users.personid WHERE person_id = (?)", [session['user_id']])
     user_meals = res.fetchall()
     print(user_meals)
 
@@ -215,17 +215,26 @@ def add_meal():
         meal_name = request.form.get("mealname")
         is_easy = request.form.get("easy")
         print(meal_name, is_easy)
+
+        #TODO: check if meal already exists
+        db = get_db()
+        res = db.cursor().execute("SELECT meal_name FROM meal_items")
+        foods = res.fetchall()
+        print(foods)
+
+        #check to see if meal already exists in DB
         
-        new_meal = [meal_name, is_easy, session['user_id']]
+        
+        new_meal = [meal_name, is_easy]
 
         # add new meal item to db
         db = get_db()
-        db.cursor().execute("INSERT INTO meal_items(meal_name, is_easy, person_id) VALUES(?,?,?)", new_meal)
+        db.cursor().execute("INSERT INTO meal_items(meal_name, is_easy) VALUES(?,?)", new_meal)
 
         db.commit()
         db.close()        
 
-        return render_template("/food.html")
+        return redirect(url_for("show_meal"))
 
 #TODO make add recipe (to users cookbook)
 @app.route("/add_recipe", methods = ["POST"])

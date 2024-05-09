@@ -241,6 +241,10 @@ def add_meal():
 def add_recipe():
     print("the add recipe button was pushed")
 
+    data = request.get_json() # retrieve the data sent from JS
+    print(data)
+    
+
     return redirect(url_for('show_meal'))
 
 #delete meal route

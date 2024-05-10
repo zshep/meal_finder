@@ -26,8 +26,8 @@
                 <div>
                     <h8>Available Recipes</h8>
                     {% for meal in all_meals%}
-                        <ul> {{ meal }}</ul>
-                        <button name="add_recipe_btn" id ="{{ meal }}" value="{{ meal }} " onclick="add_recipe()">Add to Your Recipes</button>
+                        <p> {{ meal }}</p>
+                        <button name="add_recipe_btn" id=" {{ meal }}" onClick="add_recipe(this.id)">Add to Your Recipes</button>
                         
                     {% endfor %}
                 </div>

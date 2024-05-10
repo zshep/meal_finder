@@ -1,26 +1,63 @@
 
 
+// fetch function to send btn info to backend
+async function add_recipe(btn) {
+    //console.log("a btn was clicked");
+   
+    try {
+        console.log(btn)
+        let addrecipe = {
+            recipe_name: btn,
+        };
+        console.log(addrecipe)
+        const response = await fetch("/add_recipe", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(addrecipe),
+        });
 
-function add_recipe(recipe_name) {
-    var added_recipe = document.getElementById('${recipe_name}');
-    print(recipe_name)
-    console.log("attempting to add recipe to users cookbook");
-    console.log(added_recipe);
-    console.log(added_recipe.value)
+        const result = await response.json();
+        console.log("Success:", + result);
+
+
+    } catch(error) {
+        console.error("Error:", error);
+    }
+    
+}
+
+
+
+
+/*
+// Ajax attempt at sending data to backend
+function add_recipe(btn) {
+
+    console.log(btn)
+    let addrecipe = {
+        recipe_name: btn,
+    };
+    console.log(addrecipe);
 
     $.ajax({
         url: '/add_recipe',
         type: 'POST',
-        data: { 'recipe' : added_recipe},
-        success: function(response) {
+        data: addrecipe,
+        success: function (response) {
             console.log(response);
             console.log(response.result);
         },
 
-        error: function(error){
+        error: function (error) {
             console.log(error);
         }
 
     });
+    console.log("did it work?")
 
+    return btn
 }
+
+*/

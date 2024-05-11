@@ -13,11 +13,12 @@ async function add_recipe(btn) {
         const response = await fetch("/add_recipe", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "application/json"
             },
-            body: JSON.stringify(addrecipe),
+            body: JSON.stringify(addrecipe)
         });
 
+        console.log("fetch away!")
         const result = await response.json();
         console.log("Success:", + result);
 

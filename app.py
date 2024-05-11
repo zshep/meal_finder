@@ -215,26 +215,34 @@ def add_meal():
         meal_name = request.form.get("mealname")
         is_easy = request.form.get("easy")
         print(meal_name, is_easy)
+        meal_list = [] #empty list to hold list of meals
 
-        #TODO: check if meal already exists
+        #grabbing meal list from meal_item tables
         db = get_db()
         res = db.cursor().execute("SELECT meal_name FROM meal_items")
-        foods = res.fetchall()
-        print(foods)
+        old_meals = res.fetchall()
+        print(old_meals)
 
         #check to see if meal already exists in DB
-        
-        
-        new_meal = [meal_name, is_easy]
+        for old_meal in old_meals:
+            print(old_meal)
+            meal_list.append(old_meal)
 
-        # add new meal item to db
-        db = get_db()
-        db.cursor().execute("INSERT INTO meal_items(meal_name, is_easy) VALUES(?,?)", new_meal)
+        print(meal_list)
+        if meal_name in meal_list:
+            print("this meal already exists")
+            return render_template("error.html")
+        else:    
+            new_meal = [meal_name, is_easy]
 
-        db.commit()
-        db.close()        
+            # add new meal item to db
+            db = get_db()
+            db.cursor().execute("INSERT INTO meal_items(meal_name, is_easy) VALUES(?,?)", new_meal)
 
-        return redirect(url_for("show_meal"))
+            db.commit()
+            db.close()        
+
+            return redirect(url_for("show_meal"))
 
 #TODO make add recipe (to users cookbook)
 @app.route("/add_recipe", methods = ["POST"])
@@ -242,8 +250,19 @@ def add_recipe():
     print("the add recipe button was pushed")
 
     data = request.get_json() # retrieve the data sent from JS
-    print(data)
+    new_recipe = data['recipe_name']
+    print(new_recipe, "will be added to users cookbook")
+
+    #adding new recipe to database
+    db = get_db()
+    cursor = db.cursor()
+    #TODO: FIX THIS SQL INSERT QUERY TO ADD INTO PERSON's cookbook
+    cursor.execute("INSERT into cook_book(person_id, meal_id) VALUES(?) SELECT meal_name, meal_id FROM meal_items INNER JOIN cook_book ON meal_items.meal_id = cook_book.meal_id INNER JOIN users ON cook_book.person_id = users.person_id", )
+
     
+        
+
+
 
     return redirect(url_for('show_meal'))
 

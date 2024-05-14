@@ -244,26 +244,44 @@ def add_meal():
 
             return redirect(url_for("show_meal"))
 
-#TODO make add recipe (to users cookbook)
+
 @app.route("/add_recipe", methods = ["POST"])
 def add_recipe():
     print("the add recipe button was pushed")
 
     data = request.get_json() # retrieve the data sent from JS
-    new_recipe = data['recipe_name']
-    print(new_recipe, "will be added to users cookbook")
-
-    #adding new recipe to database
-    db = get_db()
-    cursor = db.cursor()
-    #TODO: FIX THIS SQL INSERT QUERY TO ADD INTO PERSON's cookbook
-    cursor.execute("INSERT into cook_book(person_id, meal_id) VALUES(?) SELECT meal_name, meal_id FROM meal_items INNER JOIN cook_book ON meal_items.meal_id = cook_book.meal_id INNER JOIN users ON cook_book.person_id = users.person_id", )
-
+    print(data)
+    new_recipe = str(data['recipe_name'])
+    print(new_recipe, "will be added to cookbook")
     
+    
+   
+
+    #query data base to find meal id
+    db = get_db()
+    cur = db.cursor()
+    
+    #TODO: Fix this query... it's returning an empty list
+    res = cur.execute("SELECT meal_id FROM meal_items WHERE meal_name = ?", [data['recipe_name']])
+    meal_id = res.fetchone()
+    print(meal_id)
+
+    if not meal_id:
+        print("this shit is empty")
+        return render_template("/error.html")
+    
+    
+    print(new_recipe +" has the id of", meal_id)
+
+    insert_cookbook = [session['user_id'], meal_id]
+    
+    #adding new recipe to database
+    cur.execute("INSERT into cookbook(person_id, meal_id) VALUES(?, ?)", insert_cookbook)
+
+    db.commit()
+    db.close() 
+    print("recipe should be added to users cookbook. DB Committed and closed")
         
-
-
-
     return redirect(url_for('show_meal'))
 
 #delete meal route
@@ -280,15 +298,3 @@ def delete_meal():
 def jedi():
     return render_template("layout.html")
 
-
-
-
-
-# add food
-
-
-#closing database connection: IS THIS PROPER?? to put it down here?
-""" if connection:
-        connection.close()
-        print("SQL connection closed")
-"""

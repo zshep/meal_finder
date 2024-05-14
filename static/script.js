@@ -20,9 +20,8 @@ async function add_recipe(btn) {
 
         console.log("fetch away!")
         const result = await response.json();
+        console.log(result);
         console.log("Success:", + result);
-
-
     } catch(error) {
         console.error("Error:", error);
     }

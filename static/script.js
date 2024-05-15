@@ -1,15 +1,17 @@
 
 
 // fetch function to send btn info to backend
-async function add_recipe(btn) {
+async function add_recipe(name, id) {
     //console.log("a btn was clicked");
    
     try {
-        console.log(btn)
+        //adding new recipe details in object
         let addrecipe = {
-            recipe_name: btn,
+            recipe_name: name,
+            recipe_id: id,
         };
         console.log(addrecipe)
+        // sending new recipe to back end
         const response = await fetch("/add_recipe", {
             method: "POST",
             headers: {

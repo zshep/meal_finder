@@ -174,33 +174,23 @@ def register():
 def show_meal():
     #grab the users meal items from DB
     db = get_db()
-    res = db.cursor().execute("SELECT meal_name FROM meal_items JOIN cookbook ON meal_items.meal_id = cookbook.meal_id, users ON cookbook.person_id = users.personid WHERE person_id = (?)", [session['user_id']])
+    res = db.cursor().execute("SELECT meal_name FROM meal_items JOIN cookbook ON meal_items.meal_id = cookbook.meal_id WHERE cookbook.person_id == (?)", [session['user_id']])
     user_meals = res.fetchall()
+    print("the users' meals are...")
     print(user_meals)
 
-    #grab all the recipes for db
-    recipes = db.cursor().execute("SELECT meal_name FROM meal_items")
+    #grab all the recipe names and ids for db
+    recipes = db.cursor().execute("SELECT meal_name, meal_id FROM meal_items")
 
     all_meals = recipes.fetchall()
-    print(all_meals)
-
-    #createing and populting list hold all meals
-    all_meal_list = []
-    for meals in all_meals:
-        all_meal_list.append(meals[0])
-    
-    
-    #creating and populating list to hold user meals
-    user_meal_list = []
-    for meal in user_meals:
-        #print(meal[0])
-        user_meal_list.append(meal[0])
-
-   #closing db
+    #print("all meals are...")
+    #print(all_meals)
+     
+    #closing db
     db.close()
 
         
-    return render_template("/food.html", user_list = user_meal_list, all_meals = all_meal_list)
+    return render_template("/food.html", user_meals = user_meals, all_meals = all_meals)
 
 # add meal  route
 @app.route("/add_meal", methods =["GET", "POST"] )
@@ -232,6 +222,7 @@ def add_meal():
         if meal_name in meal_list:
             print("this meal already exists")
             return render_template("error.html")
+        
         else:    
             new_meal = [meal_name, is_easy]
 
@@ -242,7 +233,7 @@ def add_meal():
             db.commit()
             db.close()        
 
-            return redirect(url_for("show_meal"))
+            return render_template("/food.html")
 
 
 @app.route("/add_recipe", methods = ["POST"])
@@ -251,37 +242,24 @@ def add_recipe():
 
     data = request.get_json() # retrieve the data sent from JS
     print(data)
-    new_recipe = str(data['recipe_name'])
-    print(new_recipe, "will be added to cookbook")
-    
-    
-   
-
-    #query data base to find meal id
-    db = get_db()
-    cur = db.cursor()
-    
-    #TODO: Fix this query... it's returning an empty list
-    res = cur.execute("SELECT meal_id FROM meal_items WHERE meal_name = ?", [data['recipe_name']])
-    meal_id = res.fetchone()
-    print(meal_id)
-
-    if not meal_id:
-        print("this shit is empty")
-        return render_template("/error.html")
-    
-    
+    new_recipe = data['recipe_name']
+    meal_id = data['recipe_id']
+       
+           
     print(new_recipe +" has the id of", meal_id)
 
     insert_cookbook = [session['user_id'], meal_id]
+    print(insert_cookbook)
+     
     
     #adding new recipe to database
-    cur.execute("INSERT into cookbook(person_id, meal_id) VALUES(?, ?)", insert_cookbook)
+    db = get_db()
+    db.cursor().execute("INSERT into cookbook(person_id, meal_id) VALUES(?, ?)", insert_cookbook)
 
     db.commit()
     db.close() 
     print("recipe should be added to users cookbook. DB Committed and closed")
-        
+      
     return redirect(url_for('show_meal'))
 
 #delete meal route

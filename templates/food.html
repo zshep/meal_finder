@@ -6,8 +6,8 @@
         <div class="row">
             <div class="col">
                 <h8> Your Recipies</h8>
-                {% if meal_list %}
-                    {% for meal in user_list %}
+                {% if user_meals %}
+                    {% for meal in user_meals %}
                         <ul>
                             <li>{{ meal }}</li>
                             <button action="/delete_meal" method="DELETE">
@@ -26,8 +26,8 @@
                 <div>
                     <h8>Available Recipes</h8>
                     {% for meal in all_meals%}
-                        <p> {{ meal }}</p>
-                        <button name="add_recipe_btn" id=" {{ meal }}" onClick="add_recipe(this.id)">Add to Your Recipes</button>
+                        <p> {{ meal[0] }}</p>
+                        <button name="add_recipe_btn" id=" {{ meal[1] }}" value =" {{ meal[0] }}" onClick="add_recipe(this.value, this.id)">Add to Your Recipes</button>
                         
                     {% endfor %}
                 </div>

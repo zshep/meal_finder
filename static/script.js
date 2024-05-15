@@ -1,6 +1,43 @@
+//fetch function for deleting a recipe from users cookbook
+async function delete_recipe(name, id){
+    try{
+        //console.log(name);
+        //console.log(id);
+        let delete_recipe = {
+            meal_name : name,
+            meal_id : id,
+        };
+        console.log(delete_recipe);
+
+        const response = await fetch("/delete_meal", {
+            method : "DELETE",
+            headers : {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(delete_recipe)
+        });
+        
+        const result = await response.json();
+
+        if (result)
+            {
+                console.log("fetch success")
+                console.log(result)
+
+            }
+            
 
 
-// fetch function to send btn info to backend
+    }catch(error){
+
+        console.log("there was an error")
+        console.log(error)
+    }
+
+
+}
+
+// fetch function for adding recipe to users cookbook
 async function add_recipe(name, id) {
     //console.log("a btn was clicked");
    
@@ -32,34 +69,3 @@ async function add_recipe(name, id) {
 
 
 
-
-/*
-// Ajax attempt at sending data to backend
-function add_recipe(btn) {
-
-    console.log(btn)
-    let addrecipe = {
-        recipe_name: btn,
-    };
-    console.log(addrecipe);
-
-    $.ajax({
-        url: '/add_recipe',
-        type: 'POST',
-        data: addrecipe,
-        success: function (response) {
-            console.log(response);
-            console.log(response.result);
-        },
-
-        error: function (error) {
-            console.log(error);
-        }
-
-    });
-    console.log("did it work?")
-
-    return btn
-}
-
-*/

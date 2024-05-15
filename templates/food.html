@@ -2,39 +2,44 @@
 
 {% block main %}
 
-    <container class="container">
-        <div class="row">
-            <div class="col">
-                <h8> Your Recipies</h8>
-                {% if user_meals %}
-                    {% for meal in user_meals %}
-                        <ul>
-                            <li>{{ meal }}</li>
-                            <button action="/delete_meal" method="DELETE">
-                                <input type ="submit" value="Delete"/>
-                            </button>
-                        </ul>
-                    {% endfor %}
-                {% else %}
+<container class="container">
+    <div class="row">
+        <div class="col">
+            <h8> Your Recipies</h8>
+            {% if user_meals %}
+            {% for meal in user_meals %}
+            <ul class="list group">
+                <li class="list-group-item list-group-item-action">{{ meal[0] }}
+                    <button class="btn btn-danger" onClick="delete_recipe(this.value, this.id)" name="delete_btn" type="button" id="{{ meal[1] }}" value =" {{ meal[0] }}">
+                       
+                    Delete</button>
+                </li>
+            </ul>
+            {% endfor %}
+            {% else %}
 
-                    <p>No Recipes Added</p>
+            <p>No Recipes Added</p>
 
-                {% endif %}
-            </div>
-            
-            <div class="col">
-                <div>
-                    <h8>Available Recipes</h8>
-                    {% for meal in all_meals%}
-                        <p> {{ meal[0] }}</p>
-                        <button name="add_recipe_btn" id=" {{ meal[1] }}" value =" {{ meal[0] }}" onClick="add_recipe(this.value, this.id)">Add to Your Recipes</button>
-                        
-                    {% endfor %}
-                </div>
-                <h8>Would you like to add a new meal item?</h8>
-                <a href ="/add_meal">Add New Meal Item</a>
-            </div>
+            {% endif %}
         </div>
-    </container>
+
+        <div class="col">
+            <div>
+                <h8>Available Recipes</h8>
+                <ul class="list-group">
+                    {% for meal in all_meals%}
+                    <li class="list-group-item list-group-item-action"> {{ meal[0] }}
+                    <button class="btn btn-secondary" type="button" name="add_recipe_btn" id=" {{ meal[1] }}" value=" {{ meal[0] }}"
+                        onClick="add_recipe(this.value, this.id)">Add to Recipes</button>
+                    </li>
+                    {% endfor %}
+                </ul>
+
+            </div>
+            <h8>Would you like to add a new meal item?</h8>
+            <a href="/add_meal">Add New Meal Item</a>
+        </div>
+    </div>
+</container>
 
 {% endblock %}

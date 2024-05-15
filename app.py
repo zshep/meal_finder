@@ -174,7 +174,7 @@ def register():
 def show_meal():
     #grab the users meal items from DB
     db = get_db()
-    res = db.cursor().execute("SELECT meal_name FROM meal_items JOIN cookbook ON meal_items.meal_id = cookbook.meal_id WHERE cookbook.person_id == (?)", [session['user_id']])
+    res = db.cursor().execute("SELECT meal_name, meal_items.meal_id FROM meal_items JOIN cookbook ON meal_items.meal_id = cookbook.meal_id WHERE cookbook.person_id == (?)", [session['user_id']])
     user_meals = res.fetchall()
     print("the users' meals are...")
     print(user_meals)
@@ -239,36 +239,50 @@ def add_meal():
 @app.route("/add_recipe", methods = ["POST"])
 def add_recipe():
     print("the add recipe button was pushed")
-
-    data = request.get_json() # retrieve the data sent from JS
-    print(data)
-    new_recipe = data['recipe_name']
-    meal_id = data['recipe_id']
+    if request.method == "POST":
+        data = request.get_json() # retrieve the data sent from JS
+        print(data)
+        new_recipe = data['recipe_name']
+        meal_id = data['recipe_id']
        
            
-    print(new_recipe +" has the id of", meal_id)
+        print(new_recipe +" has the id of", meal_id)
 
-    insert_cookbook = [session['user_id'], meal_id]
-    print(insert_cookbook)
+        insert_cookbook = [session['user_id'], meal_id]
+        print(insert_cookbook)
      
-    
-    #adding new recipe to database
-    db = get_db()
-    db.cursor().execute("INSERT into cookbook(person_id, meal_id) VALUES(?, ?)", insert_cookbook)
+        
+        #adding new recipe to database
+        db = get_db()
+        db.cursor().execute("INSERT into cookbook(person_id, meal_id) VALUES(?, ?)", insert_cookbook)
 
-    db.commit()
-    db.close() 
-    print("recipe should be added to users cookbook. DB Committed and closed")
-      
-    return redirect(url_for('show_meal'))
+        db.commit()
+        db.close() 
+        print("recipe should be added to users cookbook. DB Committed and closed")
+        
+        return redirect(url_for('show_meal'))
 
 #delete meal route
 @app.route("/delete_meal", methods = ["DELETE"])
 @login_required
 def delete_meal():
     print("delete meal button was pressed")
-    meal_remove = request.form.get("")
-    #
+    
+    data = request.get_json() #grab data from front end JS
+    print(data)
+    meal_name = data['meal_name']
+    meal_id = data['meal_id']
+
+    print(meal_name +" has the id of", meal_id)
+
+    #TODO: make sql query to delete row of meal id with person id
+    db = get_db()
+    cur = db.cursor()
+    cur.execute("DELETE FROM cookbook WHERE meal_id = ? AND person_id =?", [meal_id, session['user_id']])
+
+    db.commit()
+    db.close()
+    print("the meal item should have been deleted from users cookbook")
 
     return render_template("food.html")
 

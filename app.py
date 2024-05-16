@@ -192,7 +192,7 @@ def show_meal():
         
     return render_template("/food.html", user_meals = user_meals, all_meals = all_meals)
 
-# add meal  route
+# add meal to global recipe list
 @app.route("/add_meal", methods =["GET", "POST"] )
 @login_required
 def add_meal():
@@ -211,12 +211,12 @@ def add_meal():
         db = get_db()
         res = db.cursor().execute("SELECT meal_name FROM meal_items")
         old_meals = res.fetchall()
-        print(old_meals)
+        #print(old_meals)
 
         #check to see if meal already exists in DB
         for old_meal in old_meals:
-            print(old_meal)
-            meal_list.append(old_meal)
+            print(old_meal[0])
+            meal_list.append(old_meal[0])
 
         print(meal_list)
         if meal_name in meal_list:
@@ -224,6 +224,7 @@ def add_meal():
             return render_template("error.html")
         
         else:    
+            print("meal not found in db")
             new_meal = [meal_name, is_easy]
 
             # add new meal item to db
@@ -232,10 +233,11 @@ def add_meal():
 
             db.commit()
             db.close()        
+            print("meal added to db")
 
-            return render_template("/food.html")
+            return redirect("/show_meal")
 
-
+#adding a recipe from global to users cookbok
 @app.route("/add_recipe", methods = ["POST"])
 def add_recipe():
     print("the add recipe button was pushed")

@@ -17,5 +17,14 @@ nav {
 
 #homebtn {
     color: green;
+}
+
+body {
+    min-height: 95vh;
+    width: 100%;
+}
+
+footer {
+    align-self: flex-end;
 
 }

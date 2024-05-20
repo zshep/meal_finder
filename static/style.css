@@ -1,8 +1,6 @@
 nav {
     margin-top: 2vh;
     margin-bottom: 5vh;
-
-
 }
 
 #navbar {
@@ -12,7 +10,6 @@ nav {
     flex-wrap: none;
     margin: 0;
     width: 100%;
-
 }
 
 #homebtn {
@@ -22,6 +19,11 @@ nav {
 body {
     min-height: 95vh;
     width: 100%;
+}
+
+.hidden_btn {
+    color: white;
+    text-decoration: none;
 }
 
 footer {

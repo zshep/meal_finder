@@ -19,9 +19,9 @@
                     <th>Saturday</th>
                 </tr>
             </thead>
-            
+            <!-- need to add in ninja code to display proper food/menu items-->
             <tbody>
-                <td class="mealday"></td>
+                <td class="mealday">Menu Items Go here</td>
                 <td class="mealday"></td>
                 <td class="mealday"></td>
                 <td class="mealday"></td>
@@ -32,6 +32,41 @@
 
 
         </table>
+    </div>
+
+    <div class="d-flex flex-coloumn justify-content-center">
+        
+            <form action="/">
+                <div class="dropdown">
+                    <button class="btn btn-light dropdown-toggle" type="button" id="Sumeal">Choose a Meal</button>
+                </div>
+                <div class="dropdown">
+                    <button class="btn btn-light dropdown-toggle" type="button" id="Momeal">Choose a Meal</button>
+                </div>
+                <div class="dropdown">
+                    <button class="btn btn-light dropdown-toggle" type="button" id="Tumeal">Choose a Meal</button>
+                </div>
+                <div class="dropdown">
+                    <button class="btn btn-light dropdown-toggle" type="button" id="Wedmeal">Choose a Meal</button>
+                </div>
+                <div class="dropdown">
+                    <button class="btn btn-light dropdown-toggle" type="button" id="Thmeal">Choose a Meal</button>
+                </div>
+                <div class="dropdown">
+                    <button class="btn btn-light dropdown-toggle" type="button" id="Frimeal">Choose a Meal</button>
+                </div>
+                <div class="dropdown">
+                    <button class="btn btn-light dropdown-toggle" type="button" id="Sameal">Choose a Meal</button>
+                </div>
+                <datalist class="dropdown-menu" aria-labelledby= "dropdownMenuButton" >
+                    <a class="dropdown-item" href="/addcalendar(wings)" id ="wings">Wings</a>
+                    <a class="dropdown-item" href="/addcalendar(frogleggs)" id ="Frog Legs">Frog Legs</a>
+                    {% for meal in meals %}
+                    <a class="dropdown-item" href="/addcalendar" id="{{ meal }}">
+                    {% endfor %}
+                </datalist>
+                <button class="btn btn-Success">Submit</button>            
+            </form>  
 
 
     </div>

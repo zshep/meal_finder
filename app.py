@@ -288,6 +288,16 @@ def delete_meal():
 
     return render_template("food.html")
 
+@app.route("/addcalendar")
+@login_required
+def add_calendar(meal):
+
+    print("attempting to add cookbook item to calendar")
+    
+
+    return 0
+
+
 @app.route("/jedi")
 def jedi():
     return render_template("layout.html")

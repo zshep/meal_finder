@@ -34,10 +34,17 @@ def index():
     user_id = session['user_id']
     print(user_name, user_id)
 
+    #grab users meals
+    db = get_db()
+    request = db.cursor().execute("SELECT meal_name, meal_items.meal_id, cookbook.day FROM meal_items JOIN cookbook ON meal_items.meal_id = cookbook.meal_id WHERE cookbook.person_id == (?)", [session['user_id']])
+    user_meals = request.fetchall()
+    print(user_meals)
 
 
 
-    return render_template("index.html", user_name = user_name)
+    db.close()
+
+    return render_template("index.html", user_name = user_name, meals = user_meals)
 
 #login route
 @app.route("/login", methods = ["GET","POST"])
@@ -277,7 +284,7 @@ def delete_meal():
 
     print(meal_name +" has the id of", meal_id)
 
-    #TODO: make sql query to delete row of meal id with person id
+    #sql query to delete row of meal id with person id
     db = get_db()
     cur = db.cursor()
     cur.execute("DELETE FROM cookbook WHERE meal_id = ? AND person_id =?", [meal_id, session['user_id']])
@@ -288,14 +295,38 @@ def delete_meal():
 
     return render_template("food.html")
 
-@app.route("/addcalendar")
+@app.route("/mealplan", methods = ["POST"])
 @login_required
-def add_calendar(meal):
+def meal_plan():
 
-    print("attempting to add cookbook item to calendar")
+    print("attempting to add cookbook item to users meal plan")
+
+    #grab data from front end
+    meal = request.form.get("meal") # getting meal id
+    day = request.form.get("day") #getting number 0-6
+    print(meal, day)
+    #print(type(day))
+
+    #debugging on user errors
+    if meal == "Choose a Meal":
+        print("missing meal")
+        return render_template("error.html")
+    elif day == "Choose a day":
+        print("missing day")
+        return render_template("error.html")
+    
+    meal_plan = [ session["user_id"], meal, day]
+ 
+    #Post/update data to meal_plan table 
+    db = get_db()
+    db.cursor().execute("INSERT into cookbook(person_id, meal_id, day) VALUES(?, ?, ?)", meal_plan)
+
+    db.commit()
+    db.close()
     
 
-    return 0
+    return render_template("/index.html")
+
 
 
 @app.route("/jedi")

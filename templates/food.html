@@ -26,10 +26,12 @@
                 <h8>Available Recipes</h8>
                 <ul class="list-group">
                     {% for meal in all_meals%}
-                    <li class="list-group-item list-group-item-action"> {{ meal[0] }}
-                    <button class="btn btn-secondary" type="button" name="add_recipe_btn" id=" {{ meal[1] }}" value=" {{ meal[0] }}"
-                        onClick="add_recipe(this.value, this.id)"><a class="hidden_btn" href ="/show_meal">Add to Recipes</a></button>
-                    </li>
+                        {% if not meal in user_meals%}
+                            <li class="list-group-item list-group-item-action"> {{ meal[0] }}
+                            <button class="btn btn-secondary" type="button" name="add_recipe_btn" id=" {{ meal[1] }}" value=" {{ meal[0] }}"
+                                onClick="add_recipe(this.value, this.id)"><a class="hidden_btn" href ="/show_meal">Add to Recipes</a></button>
+                            </li>
+                        {% endif %}
                     {% endfor %}
                 </ul>
 

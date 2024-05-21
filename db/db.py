@@ -23,14 +23,15 @@ def get_db():
         cursor.execute("CREATE TABLE IF NOT EXISTS ingredients (food_id INTEGER FORIEGN KEY REFERENCES food_items (food_id), meal_id INTEGER FORIEGN KEY REFERENCES meal_items (meal_id))")
         #print("ingredients table created")
 
-        cursor.execute("CREATE TABLE IF NOT EXISTS cookbook(person_id INTEGER FORIEGN KEY REFERENCES users(person_id), meal_id INTEGER FORIEN KEY REFERENCES meal_items(meal_id))")
+        #loading/creating cookbook table (individual's meal items)
+        cursor.execute("CREATE TABLE IF NOT EXISTS cookbook(person_id INTEGER FORIEGN KEY REFERENCES users(person_id), meal_id INTEGER FORIEN KEY REFERENCES meal_items(meal_id), day INTEGER)")
         #print("cookbook table created")
-
-        connection.commit()
 
         
 
-        # do I want to return the cursor or just the connection? 
+        connection.commit()
+
+        # return connection for routes to use
         return connection 
 
     #handling errors

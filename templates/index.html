@@ -7,7 +7,7 @@
 
     <div>
         <p>The week's meals at a glance</p>
-        <table class = "table table-striped">
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Sunday</th>
@@ -21,58 +21,59 @@
             </thead>
             <!-- need to add in ninja code to display proper food/menu items-->
             <tbody>
-                <td class="mealday">Menu Items Go here</td>
-                <td class="mealday"></td>
-                <td class="mealday"></td>
-                <td class="mealday"></td>
-                <td class="mealday"></td>
-                <td class="mealday"></td>
-                <td class="mealday"></td>
+                <td id="sunday">Menu Items Go here</td>
+                <td id="monday"></td>
+                <td id="tuesday"></td>
+                <td id="wednesday"></td>
+                <td id="thursday"></td>
+                <td id="friday"></td>
+                <td id="saturday"></td>
             </tbody>
 
 
         </table>
     </div>
 
-    <div class="d-flex flex-coloumn justify-content-center">
-        
-            <form action="/">
-                <div class="dropdown">
-                    <button class="btn btn-light dropdown-toggle" type="button" id="Sumeal">Choose a Meal</button>
-                </div>
-                <div class="dropdown">
-                    <button class="btn btn-light dropdown-toggle" type="button" id="Momeal">Choose a Meal</button>
-                </div>
-                <div class="dropdown">
-                    <button class="btn btn-light dropdown-toggle" type="button" id="Tumeal">Choose a Meal</button>
-                </div>
-                <div class="dropdown">
-                    <button class="btn btn-light dropdown-toggle" type="button" id="Wedmeal">Choose a Meal</button>
-                </div>
-                <div class="dropdown">
-                    <button class="btn btn-light dropdown-toggle" type="button" id="Thmeal">Choose a Meal</button>
-                </div>
-                <div class="dropdown">
-                    <button class="btn btn-light dropdown-toggle" type="button" id="Frimeal">Choose a Meal</button>
-                </div>
-                <div class="dropdown">
-                    <button class="btn btn-light dropdown-toggle" type="button" id="Sameal">Choose a Meal</button>
-                </div>
-                <datalist class="dropdown-menu" aria-labelledby= "dropdownMenuButton" >
-                    <a class="dropdown-item" href="/addcalendar(wings)" id ="wings">Wings</a>
-                    <a class="dropdown-item" href="/addcalendar(frogleggs)" id ="Frog Legs">Frog Legs</a>
+    <form action="/mealplan" method="post" class="d-flex flex-coloumn justify-content-center">
+
+        <div class="flex-coloumn">
+            <!--container for choosing a meal-->
+            <div class="flex-coloumn">
+                <select class="form-select" aria-label="mealoptions" name="meal">
+                    <option selected>Choose a Meal</option>
+                    <option value="Random">Random</option>
                     {% for meal in meals %}
-                    <a class="dropdown-item" href="/addcalendar" id="{{ meal }}">
+                    {% if meal[2] == NULL %}
+                    <option value="{{ meal[1] }}">{{ meal[0] }}</option>
+                    {% endif %}
                     {% endfor %}
-                </datalist>
-                <button class="btn btn-Success">Submit</button>            
-            </form>  
+
+                </select>
+
+            </div>
+
+            <!-- container for choosing a day to add said meal to-->
+            <div class="flex-coloumn">
+                <select class="form-select" aria-label="dayOptions" name="day">
+                    <option selected>Choose a day</option>
+
+                    <option value="0">Sunday</option>
+                    <option value="1">Monday</option>
+                    <option value="2">Tuesday</option>
+                    <option value="3">Wednesday</option>
+                    <option value="4">Thursday</option>
+                    <option value="5">Friday</option>
+                    <option value="6">Saturday</option>
+
+                </select>
+            </div>
+
+            <button class="btn btn-success">Submit</button>
+        </div>
 
 
-    </div>
+    </form>
 
 </container>
 
 {% endblock %}
-
-

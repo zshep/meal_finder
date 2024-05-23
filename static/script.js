@@ -33,8 +33,6 @@ async function delete_recipe(name, id){
         console.log("there was an error")
         console.log(error)
     }
-
-
 }
 
 // fetch function for adding recipe to users cookbook
@@ -64,7 +62,6 @@ async function add_recipe(name, id) {
     } catch(error) {
         console.error("Error:", error);
     }
-    
 }
 
 

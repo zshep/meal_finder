@@ -29,6 +29,8 @@ def login_required(f):
 @app.route("/")
 @login_required
 def index():
+
+    meal_plan =[] #empty list to hold meals that are associated with a day
     #grab users info
     user_name = session['name']
     user_id = session['user_id']
@@ -40,11 +42,16 @@ def index():
     user_meals = request.fetchall()
     print(user_meals)
 
+    for meals in user_meals:
+        if meals[2] is not None:
+            meal_plan.append(meals)
 
+            
+    print(meal_plan)
 
     db.close()
 
-    return render_template("index.html", user_name = user_name, meals = user_meals)
+    return render_template("index.html", user_name = user_name, meals = user_meals, meal_plan = meal_plan)
 
 #login route
 @app.route("/login", methods = ["GET","POST"])
@@ -314,12 +321,30 @@ def meal_plan():
     elif day == "Choose a day":
         print("missing day")
         return render_template("error.html")
-    
-    meal_plan = [ session["user_id"], meal, day]
+    # checking if user picked random
+    elif meal == "Random":
+        #choose a meal at random
+        db = get_db()
+        random_meal = db.cursor().execute("SELECT meal_items.meal_id FROM meal_items JOIN cookbook ON meal_items.meal_id = cookbook.meal_id WHERE cookbook.person_id == ? ORDER BY RANDOM() LIMIT 1", [session["user_id"]])
+
+        print(random_meal)
+        db.close()
+
+        meal_plan = [ session["user_id"], random_meal, day]
+        new_db = get_db()
+
+        new_db.cursor().execute("UPDATE cookbook SET day = ? WHERE person_id = ? AND meal_id = ? ", day, session['user_id'], random_meal)
+
+        db.commit()
+        db.close()
  
+        return render_template("/index.html")
+    
+    #dealing with meal that user selected (not random)
+           
     #Post/update data to meal_plan table 
     db = get_db()
-    db.cursor().execute("INSERT into cookbook(person_id, meal_id, day) VALUES(?, ?, ?)", meal_plan)
+    db.cursor().execute("UPDATE cookbook SET day = ? WHERE person_id = ? AND meal_id = ? ", [day, session['user_id'], meal])
 
     db.commit()
     db.close()

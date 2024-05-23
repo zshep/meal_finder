@@ -19,10 +19,10 @@
                     <th>Saturday</th>
                 </tr>
             </thead>
-            <!-- need to add in ninja code to display proper food/menu items-->
+            <!-- need to add in jinja code to display proper food/menu items-->
             <tbody>
-                <td id="sunday">Menu Items Go here</td>
-                <td id="monday"></td>
+                <td id="sunday">{{ meal_plan[0][0]}}</td>
+                <td id="monday">{{ meal_plan[1]}}</td>
                 <td id="tuesday"></td>
                 <td id="wednesday"></td>
                 <td id="thursday"></td>
@@ -43,9 +43,9 @@
                     <option selected>Choose a Meal</option>
                     <option value="Random">Random</option>
                     {% for meal in meals %}
-                    {% if meal[2] == NULL %}
+                    
                     <option value="{{ meal[1] }}">{{ meal[0] }}</option>
-                    {% endif %}
+                
                     {% endfor %}
 
                 </select>

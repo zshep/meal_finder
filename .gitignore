@@ -55,6 +55,9 @@ cover/
 # Translations
 *.mo
 *.pot
+# Databases
+ *.db
+
 
 # Django stuff:
 *.log
@@ -65,8 +68,8 @@ db.sqlite3-journal
 # Flask stuff:
 instance/
 .webassets-cache
-
-# Scrapy stuff:
+flask_session/
+	# Scrapy stuff:
 .scrapy
 
 # Sphinx documentation

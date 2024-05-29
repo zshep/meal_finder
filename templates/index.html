@@ -20,15 +20,55 @@
                 </tr>
             </thead>
             <!-- need to add in jinja code to display proper food/menu items-->
+            
+            
             <tbody>
-                <td id="sunday">{{ meal_plan[0][0]}}</td>
-                <td id="monday">{{ meal_plan[1]}}</td>
-                <td id="tuesday"></td>
-                <td id="wednesday"></td>
-                <td id="thursday"></td>
-                <td id="friday"></td>
-                <td id="saturday"></td>
+                <td id="sunday">
+                    {% for meal in meal_plan%}
+                        {% if meal[2] == 0 %}
+                            {{ meal[0] }}
+                        {% else %}
+                        {% endif %}
+                    {% endfor %}</td>
+                <td id="monday">{% for meal in meal_plan%}
+                    {% if meal[2] == 1 %}
+                        {{ meal[0] }}
+                    {% else %}
+                    {% endif %}
+                {% endfor %}</td>
+                <td id="tuesday">{% for meal in meal_plan%}
+                    {% if meal[2] == 2 %}
+                        {{ meal[0] }}
+                    {% else %}
+                    {% endif %}
+                {% endfor %}</td>
+                <td id="wednesday">{% for meal in meal_plan%}
+                    {% if meal[2] == 3 %}
+                        {{ meal[0] }}
+                    {% else %}
+                    {% endif %}
+                {% endfor %}</td>
+                <td id="thursday">{% for meal in meal_plan%}
+                    {% if meal[2] == 4 %}
+                        {{ meal[0] }}
+                    {% else %}
+                    {% endif %}
+                {% endfor %}</td>
+                <td id="friday">{% for meal in meal_plan%}
+                    {% if meal[2] == 5 %}
+                        {{ meal[0] }}
+                    {% else %}
+                    {% endif %}
+                {% endfor %}</td>
+                <td id="saturday">{% for meal in meal_plan%}
+                    {% if meal[2] == 6 %}
+                        {{ meal[0] }}
+                    {% else %}
+                    {% endif %}
+                {% endfor %}</td>
             </tbody>
+            
+                        
 
 
         </table>
@@ -40,11 +80,13 @@
             <!--container for choosing a meal-->
             <div class="flex-coloumn">
                 <select class="form-select" aria-label="mealoptions" name="meal">
-                    <option selected>Choose a Meal</option>
-                    <option value="Random">Random</option>
-                    {% for meal in meals %}
                     
-                    <option value="{{ meal[1] }}">{{ meal[0] }}</option>
+                        <option selected>Choose a Meal</option>
+                        <option value="Random">Random</option>
+                        {% for meal in meals %}
+                        
+                        <option value="{{ meal[1] }}">{{ meal[0] }}</option>
+                                       
                 
                     {% endfor %}
 
@@ -77,3 +119,7 @@
 </container>
 
 {% endblock %}
+
+
+
+

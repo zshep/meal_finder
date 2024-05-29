@@ -45,7 +45,6 @@ def index():
     for meals in user_meals:
         if meals[2] is not None:
             meal_plan.append(meals)
-
             
     print(meal_plan)
 

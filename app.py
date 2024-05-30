@@ -277,7 +277,7 @@ def add_recipe():
         
         return redirect(url_for('show_meal'))
 
-#delete meal route
+#delete meal from users cookbook
 @app.route("/delete_meal", methods = ["DELETE"])
 @login_required
 def delete_meal():
@@ -299,8 +299,9 @@ def delete_meal():
     db.close()
     print("the meal item should have been deleted from users cookbook")
 
-    return render_template("food.html")
+    return redirect(url_for('show_meal'))
 
+# route to add a meal from users's cook book to the weekly calendar 
 @app.route("/mealplan", methods = ["POST"])
 @login_required
 def meal_plan():
@@ -337,7 +338,7 @@ def meal_plan():
         db.commit()
         db.close()
  
-        return render_template("/index.html")
+        return redirect(url_for('index'))
     
     #dealing with meal that user selected (not random)
            
@@ -349,7 +350,7 @@ def meal_plan():
     db.close()
     
 
-    return render_template("/index.html")
+    return redirect(url_for('index'))
 
 
 

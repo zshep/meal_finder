@@ -23,11 +23,8 @@ async function delete_recipe(name, id){
             {
                 console.log("fetch success")
                 console.log(result)
-
             }
             
-
-
     }catch(error){
 
         console.log("there was an error")
@@ -38,18 +35,27 @@ async function delete_recipe(name, id){
 //fetch function for deleting meal from users meal plan (calendar)
 async function delete_mp(day){
     try{
-        console.log(day)
+        console.log("the day is: ", + day)
 
-        const response = await fetch("/delete_meal_plan", {
-            method : "DELETE",
+        const url ="/delete_meal_plan"
+
+        let fetchData =  {
+            method : "PUT",
             headers : {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             },
-            body : JSON.stringify(day)
-        });
+            body : JSON.stringify(day),
+        };
 
-        const result = await response.json();
-        console.log(result)
+        fetch(url, fetchData)
+            .then((function(){
+                
+                console.log("sent data, what did we get back?")
+                console.log(fetchData)
+            }))
+
+        
+        
         console.log("Delete meal from meal plan request sent")
 
     } catch(error){

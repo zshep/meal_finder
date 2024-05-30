@@ -1,4 +1,4 @@
-from flask import Flask, flash, redirect, render_template, request, session, url_for
+from flask import Flask, flash, jsonify, redirect, render_template, request, session, url_for
 from flask_session import Session
 from functools import wraps
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -336,7 +336,7 @@ def delete_meal():
     print("delete meal button was pressed")
     
     data = request.get_json() #grab data from front end JS
-    print(data)
+    print("data: ", data)
     meal_name = data['meal_name']
     meal_id = data['meal_id']
 
@@ -354,22 +354,33 @@ def delete_meal():
     return redirect(url_for('index'))
 
 #delete meal from calendar (meal plan)
-@app.route("/delete_meal_plan", methods = ["DELETE"])
+@app.route("/delete_meal_plan", methods = ["PUT"])
 @login_required
 def delete_meal_plan():
-    print("delete meal item was pushed")
+    if request.method == 'PUT':
+        print("delete meal item was pushed")
 
-    data = request.get_json() #grabbing data from front end JS
-    print(data)
+        data = request.get_json() #grabbing data from front end JS
+        print("data: ", data)
 
-    #starting Db to delete (really updating cookbook table)
-    db = get_db()
-    cur = db.cursor()
-    cur.execute("UPDATE cookbook SET day = ? WHERE person_id = ? AND day = ?", ["NULL", session["user_id"], data] )
+        response = jsonify(data)
+        
 
-    return  redirect(url_for('index'))
+        #starting Db to delete (really updating cookbook table)
+        db = get_db()
+        cur = db.cursor()
+        cur.execute("UPDATE cookbook SET day = ? WHERE person_id = ? AND day = ?", ["NULL", session["user_id"], data])
 
+        db.commit()
+        db.close()
 
+        return  render_template("/food.html", response = response)
+    else:
+        print("there was some goofy error")
+
+        return render_template("/error.html", 404)
+
+    
 
 @app.route("/jedi")
 def jedi():

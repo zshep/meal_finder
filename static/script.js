@@ -35,6 +35,30 @@ async function delete_recipe(name, id){
     }
 }
 
+//fetch function for deleting meal from users meal plan (calendar)
+async function delete_mp(day){
+    try{
+        console.log(day)
+
+        const response = await fetch("/delete_meal_plan", {
+            method : "DELETE",
+            headers : {
+                "Content-Type": "application/json"
+            },
+            body : JSON.stringify(day)
+        });
+
+        const result = await response.json();
+        console.log(result)
+        console.log("Delete meal from meal plan request sent")
+
+    } catch(error){
+
+        console.log("there was an error with deleting meal plan")
+        console.log(error)
+    }
+}
+
 // fetch function for adding recipe to users cookbook
 async function add_recipe(name, id) {
     //console.log("a btn was clicked");

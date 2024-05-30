@@ -27,42 +27,49 @@
                     {% for meal in meal_plan%}
                         {% if meal[2] == 0 %}
                             {{ meal[0] }}
+                            <button class="btn btn-danger btn-sm" onClick="delete_mp(this.id)" id="{{ meal[2] }}">Delete</button>
                         {% else %}
                         {% endif %}
                     {% endfor %}</td>
                 <td id="monday">{% for meal in meal_plan%}
                     {% if meal[2] == 1 %}
                         {{ meal[0] }}
+                        <button class="btn btn-danger btn-sm" onClick="delete_mp(this.id)" id="{{ meal[2] }}">Delete</button>
                     {% else %}
                     {% endif %}
                 {% endfor %}</td>
                 <td id="tuesday">{% for meal in meal_plan%}
                     {% if meal[2] == 2 %}
                         {{ meal[0] }}
+                        <button class="btn btn-danger btn-sm" onClick="delete_mp(this.id)" id="{{ meal[2] }}">Delete</button>
                     {% else %}
                     {% endif %}
                 {% endfor %}</td>
                 <td id="wednesday">{% for meal in meal_plan%}
                     {% if meal[2] == 3 %}
                         {{ meal[0] }}
+                        <button class="btn btn-danger btn-sm" onClick="delete_mp(this.id)" id="{{ meal[2] }}">Delete</button>
                     {% else %}
                     {% endif %}
                 {% endfor %}</td>
                 <td id="thursday">{% for meal in meal_plan%}
                     {% if meal[2] == 4 %}
                         {{ meal[0] }}
+                        <button class="btn btn-danger btn-sm" onClick="delete_mp(this.id)" id="{{ meal[2] }}">Delete</button>
                     {% else %}
                     {% endif %}
                 {% endfor %}</td>
                 <td id="friday">{% for meal in meal_plan%}
                     {% if meal[2] == 5 %}
                         {{ meal[0] }}
+                        <button class="btn btn-danger btn-sm" onClick="delete_mp(this.id)" id="{{ meal[2] }}">Delete</button>
                     {% else %}
                     {% endif %}
                 {% endfor %}</td>
                 <td id="saturday">{% for meal in meal_plan%}
                     {% if meal[2] == 6 %}
                         {{ meal[0] }}
+                        <button class="btn btn-danger btn-sm" onClick="delete_mp(this.id)" id="{{ meal[2] }}">Delete</button>
                     {% else %}
                     {% endif %}
                 {% endfor %}</td>

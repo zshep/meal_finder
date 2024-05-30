@@ -10,7 +10,7 @@
             {% for meal in user_meals %}
             <ul class="list group">
                 <li class="list-group-item list-group-item-action">{{ meal[0] }}
-                    <button class="btn btn-danger" onClick="delete_recipe(this.value, this.id)" name="delete_btn" type="button" id="{{ meal[1] }}" value =" {{ meal[0] }}"><a class="hidden_btn" href ="/show_meal">Delete</a></button>
+                    <button class="btn btn-danger btn-sm" onClick="delete_recipe(this.value, this.id)" name="delete_btn" type="button" id="{{ meal[1] }}" value =" {{ meal[0] }}"><a class="hidden_btn" href ="/show_meal">Delete</a></button>
                 </li>
             </ul>
             {% endfor %}
@@ -28,7 +28,7 @@
                     {% for meal in all_meals%}
                         {% if not meal in user_meals%}
                             <li class="list-group-item list-group-item-action"> {{ meal[0] }}
-                            <button class="btn btn-secondary" type="button" name="add_recipe_btn" id=" {{ meal[1] }}" value=" {{ meal[0] }}"
+                            <button class="btn btn-secondary btn-sm" type="button" name="add_recipe_btn" id=" {{ meal[1] }}" value=" {{ meal[0] }}"
                                 onClick="add_recipe(this.value, this.id)"><a class="hidden_btn" href ="/show_meal">Add to Recipes</a></button>
                             </li>
                         {% endif %}

@@ -277,30 +277,6 @@ def add_recipe():
         
         return redirect(url_for('show_meal'))
 
-#delete meal from users cookbook
-@app.route("/delete_meal", methods = ["DELETE"])
-@login_required
-def delete_meal():
-    print("delete meal button was pressed")
-    
-    data = request.get_json() #grab data from front end JS
-    print(data)
-    meal_name = data['meal_name']
-    meal_id = data['meal_id']
-
-    print(meal_name +" has the id of", meal_id)
-
-    #sql query to delete row of meal id with person id
-    db = get_db()
-    cur = db.cursor()
-    cur.execute("DELETE FROM cookbook WHERE meal_id = ? AND person_id =?", [meal_id, session['user_id']])
-
-    db.commit()
-    db.close()
-    print("the meal item should have been deleted from users cookbook")
-
-    return redirect(url_for('show_meal'))
-
 # route to add a meal from users's cook book to the weekly calendar 
 @app.route("/mealplan", methods = ["POST"])
 @login_required
@@ -351,6 +327,47 @@ def meal_plan():
     
 
     return redirect(url_for('index'))
+
+
+#delete meal from users cookbook
+@app.route("/delete_meal", methods = ["DELETE"])
+@login_required
+def delete_meal():
+    print("delete meal button was pressed")
+    
+    data = request.get_json() #grab data from front end JS
+    print(data)
+    meal_name = data['meal_name']
+    meal_id = data['meal_id']
+
+    print(meal_name +" has the id of", meal_id)
+
+    #sql query to delete row of meal id with person id
+    db = get_db()
+    cur = db.cursor()
+    cur.execute("DELETE FROM cookbook WHERE meal_id = ? AND person_id =?", [meal_id, session['user_id']])
+
+    db.commit()
+    db.close()
+    print("the meal item should have been deleted from users cookbook")
+
+    return redirect(url_for('index'))
+
+#delete meal from calendar (meal plan)
+@app.route("/delete_meal_plan", methods = ["DELETE"])
+@login_required
+def delete_meal_plan():
+    print("delete meal item was pushed")
+
+    data = request.get_json() #grabbing data from front end JS
+    print(data)
+
+    #starting Db to delete (really updating cookbook table)
+    db = get_db()
+    cur = db.cursor()
+    cur.execute("UPDATE cookbook SET day = ? WHERE person_id = ? AND day = ?", ["NULL", session["user_id"], data] )
+
+    return  redirect(url_for('index'))
 
 
 

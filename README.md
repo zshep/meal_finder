@@ -10,10 +10,20 @@ That is why I made Meal Planner (formely known as Meal Finder), an website to he
 ### Design
 I wrote my back end using python for both it's familiarity and ease which meant I was also going to use Flask along with Jinja. From the cs50 course I became comfortable with Flask and Jinja that I didn't want to look into something else, But I have used Flask with React in the past before, it just would have taken me longer to get the hang of it. 
 
-### db
+### /db
 I kept going back and forth between wanting to use sqlite and sqlalchemy. I have used sql alchemy before and even though it does require more set up I thought this could be more helpful in the future when trying to make the app more robust. I ultimately went with sqlite out of being scared of hooking up my db to flask. I didn't want things to get to crowded in my app.py file that I created a db directory and having my own seperate db.py file. This made it easy to organize my database and set up the code to create the tables I would be using. I then could easily export that db instance into my app.py file.
 
-I used the movies.db as inspiration of creating and connecting my tables. At first I wanted to have a table for individual food items that you then connected to a meals table which had the name and id of whole recipies. I connected both of those tables through a table called ingredients, connecting the ids of both meals and food tables. Whle these tables do exist in my code, I actually never used them since I was more focused on connecting recipies to individual users, making sure the multiple users could have the same recipe. In the future I plan on linking each recipie with different food items to help also build a shopping list for future versions.
+I used the movies.db as inspiration of creating and connecting my tables. At first I wanted to have a table for individual food items that you then connected to a meals table which had the name and id of whole recipies. I connected both of those tables through a table called ingredients, connecting the ids of both meals and food tables. While these tables do exist in my code, I actually never used them since I was more focused on connecting recipies to individual users, making sure the multiple users could have the same recipe. In the future I plan on linking each recipie with different food items to help also build a shopping list for future versions.
+
+I finally made a cookbook table that linked a users id, a meal id and a field for to indicate a day. This way I could connect a user with a recipe (meal) and also a day so it could be populated in a table.
 
 
+# env/ 
+In trying to do best practices, I created a env folder alone with a .gitignore and requirements.txt document to help manage and keep save my dependencies
+
+# static/
+Directory for Flask which held my image for an error page, and my styles.css along with a script.js. The script.js had a couple of functions which helped pass data from front end to back end. 
+
+# templates/
+The directory used by Flask for my various web templates. My layout was inspired by the finance app, by having a navigation bar at the top and a footer on the bottom allowing to use jinja to next templates together. I made my index.html the web page 
 

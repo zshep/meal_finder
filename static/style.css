@@ -6,7 +6,7 @@ nav {
 #navbar {
     display: flex;
     height: auto;
-    background-color: lightblue;
+    background-color: rgb(153, 211, 153);
     flex-wrap: none;
     margin: 0;
     width: 100%;
@@ -14,7 +14,22 @@ nav {
 
 #homebtn {
     color: green;
+    padding-right: 5px;
+    font-size: larger;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  
 }
+
+#navbtn {
+    color:black;
+}
+
+.Navbar-nav {
+    padding-right: 6px;
+    padding-left: 6px;
+}
+
+
 
 body {
     min-height: 95vh;
@@ -28,5 +43,6 @@ body {
 
 footer {
     align-self: flex-end;
+    background-color: rgb(153, 211, 153);
 
 }

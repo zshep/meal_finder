@@ -13,15 +13,19 @@ nav {
 }
 
 #homebtn {
-    color: green;
-    padding-right: 5px;
+    color: black;
     font-size: larger;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: 'Apple Chancery';
+    align-items: center;
+
   
 }
 
 #navbtn {
     color:black;
+    font-size: large;
+    font-family: 'Apple Chancery';
+
 }
 
 .Navbar-nav {

@@ -28,28 +28,44 @@
 <body>
     <div class="container-fluid" id="navbar">
         
-        <div class="row" id="navbar">
-            <div class="col-2 justify-content-center">
-                <a class="nav-link" id="homebtn" href="/">Meal Planner</a>
-            </div>
-            {% if session["name"] %}
-            <ul class="col-2 navbar-nav ms-auto list-group-horizontal justify-content-start">
-
-                <li><a class="nav-link active justify-content-start" id="navbtn" href="/show_meal">My Recipes</a></li>  
+        <div class="row btn-group" id="navbar">
+            <ul class="col-2 justify-content-center">
+                <li class="btn btn-light btn-sm">
+                    <a class="nav-link" id="homebtn" href="/">
+                        Meal Planner
+                    </a>
+                </li>
             </ul>
-            <ul class="col-8 navbar-nav ms-auto list-group-horizontal justify-content-end">
-                <li class="nav-item"><a class="nav-link" id="navbtn" href="/logout">Log Out</a></li>
+            {% if session["name"] %}
+            <ul class="col-2 ms-auto list-group-horizontal justify-content-start">
+
+                <li class="btn btn-light" >
+                    <a id="navbtn" href="/show_meal">
+                        My Recipes
+                    </a>
+                </li>  
+            </ul>
+            <ul class="col-8 ms-auto list-group-horizontal justify-content-end">
+                <li class="btn btn-light">
+                    <a class="nav-link" id="navbtn" href="/logout">
+                        Log Out
+                    </a>
+                </li>
             </ul>
             {% else %}
 
-            <ul class="navbar-nav ms-auto mt-2 list-group-horizontal justify-content-end">
-                
-                <a class="nav-link" id="navbtn" href="/register">Register</a>
+            <ul class="col-2 ms-auto mt-2 list-group-horizontal justify-content-end">
+                <li class="btn btn-light">
+                    <a class="btn btn-light" id="navbtn" href="/register">
+                        Register
+                    </a>
+                </li>
             </ul>
             {% endif %}
         </div>
-
     </div>
+   
+   
     <main class="container-fluid text-center">
         {% block main %}{% endblock %}
     </main>

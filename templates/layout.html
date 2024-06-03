@@ -29,20 +29,20 @@
     <div class="container-fluid" id="navbar">
         
         <div class="row" id="navbar">
-            <div class="col-2">
+            <div class="col-2 justify-content-center">
                 <a class="nav-link" id="homebtn" href="/">Meal Planner</a>
             </div>
             {% if session["name"] %}
-            <ul class="col-2 navbar-nav ms-auto list-group-horizontal">
+            <ul class="col-2 navbar-nav ms-auto list-group-horizontal justify-content-start">
 
-                <li><a class="nav-link active" id="navbtn" href="/show_meal">My Recipes</a></li>  
+                <li><a class="nav-link active justify-content-start" id="navbtn" href="/show_meal">My Recipes</a></li>  
             </ul>
-            <ul class="col-8 navbar-nav ms-auto list-group-horizontal">
+            <ul class="col-8 navbar-nav ms-auto list-group-horizontal justify-content-end">
                 <li class="nav-item"><a class="nav-link" id="navbtn" href="/logout">Log Out</a></li>
             </ul>
             {% else %}
 
-            <ul class="navbar-nav ms-auto mt-2 list-group-horizontal">
+            <ul class="navbar-nav ms-auto mt-2 list-group-horizontal justify-content-end">
                 
                 <a class="nav-link" id="navbtn" href="/register">Register</a>
             </ul>

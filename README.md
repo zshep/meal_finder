@@ -1,6 +1,6 @@
 # Shep's Meal Planner
 
-#### Video Demo: <URL here>
+#### Video Demo: [LInk to video](https://youtu.be/8WKtuLQJ6CU)
 
 I try my best to eat healthy, I really do! The biggest challenge is to make sure that you plan out a weeks worth of meals so you are less tempted to default to quick and easy foods, that might be tasty... just not the healthiest. 
 

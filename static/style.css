@@ -1,6 +1,7 @@
 nav {
     margin-top: 2vh;
     margin-bottom: 5vh;
+    list-style: none;
 }
 
 #navbar {
@@ -10,6 +11,7 @@ nav {
     flex-wrap: none;
     margin: 0;
     width: 100%;
+    list-style: none;
 }
 
 #homebtn {
@@ -17,6 +19,7 @@ nav {
     font-size: larger;
     font-family: 'Apple Chancery';
     align-items: center;
+    margin-top: 2px;
 
   
 }
@@ -25,12 +28,16 @@ nav {
     color:black;
     font-size: large;
     font-family: 'Apple Chancery';
+    margin-top: 2px;
+    list-style: none;
+
 
 }
 
 .Navbar-nav {
     padding-right: 6px;
     padding-left: 6px;
+    list-style: none
 }
 
 

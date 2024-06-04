@@ -71,8 +71,11 @@ def login():
 
        
     if not username or not password:
-        print("missing username or password")
-        return render_template("error.html")
+        
+        message = "missing username or password"
+        print(message)
+
+        return render_template("error.html", message = message)
     
     #starting up sqlite db and creating cursor
     cursor = get_db().cursor()
@@ -92,13 +95,19 @@ def login():
     
 
     if not user_check:
-        print("username not found")
-        return render_template("error.html")
+        
+        message = "username not found"
+        print(message)
+
+        return render_template("error.html", message = message) 
     
     #check if password matches
     if not check_password_hash(user_check[0][1], password):
-        print("password is not correct")
-        return render_template("error.html")
+        
+        message = "password is not correct"
+        print(message)
+
+        return render_template("error.html", message = message) 
 
 
     #record the user id in session obejct 
@@ -134,14 +143,20 @@ def register():
         #catching missing usernames or passwords
         if not user_name or not password or not confirm_password:
             #need to send error message to user
-            print("missing field")
-            return render_template("error.html")
+            
+            message = "missing field"
+            print(message)
+
+            return render_template("error.html", message = message)   
         
         #catching miss matched passwords
         if password != confirm_password:
            #need to send error message to user
-            print("passwords do not match")
-            return render_template("error.html")     
+            
+            message = "passwords do not match"
+            print(message)
+
+            return render_template("error.html", message = message)   
 
         #grabbing all usernames to double check existance
         user_list = []
@@ -160,8 +175,11 @@ def register():
         print(user_list)
         # checking if new username is unique in db
         if user_name in user_list:
-            print("username already exists")
-            return render_template("error.html")
+            
+            message = "username already exists"
+            print(message)
+
+            return render_template("error.html", message = message)
         
         #hash password
         hash = generate_password_hash(password)
